@@ -52,6 +52,7 @@ namespace CanvasSucks
             return assignments
                 .Where(x => x.LockAt > DateTime.UtcNow)
                 .Where(x => x.UnlockAt < DateTime.UtcNow)
+                .Where(x => x.PointsPossible > 0)
                 .Where(x => (x.WorkflowState == "graded" && x.Score < x.PointsPossible) || x.WorkflowState != "graded")
                 .ToList();
         }
