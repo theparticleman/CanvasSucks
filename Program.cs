@@ -24,7 +24,7 @@ namespace CanvasSucks
             var courses = GetCoursesForUser(user.Id);
             foreach (var course in courses)
             {
-                AnsiConsole.Render(new Rule(course.Name));
+                AnsiConsole.Render(new Rule(course.Name ?? "No course name"));
                 var assignments = GetAssignmentsForUserAndCourse(user.Id, course.Id);
                 assignments = FilterToRelevantAssignments(assignments);
                 var table = new Table();
@@ -93,7 +93,7 @@ namespace CanvasSucks
         static string GetNextLink(IRestResponse response)
         {
             var linkHeaderValue = response.Headers.SingleOrDefault(x => x.Name == "Link")?.Value as string;
-            return linkHeaderValue.Split(',').FirstOrDefault(x => x.Contains("rel=\"next\""))?.Split(';').First().Trim('<', '>');
+            return linkHeaderValue?.Split(',').FirstOrDefault(x => x.Contains("rel=\"next\""))?.Split(';').First().Trim('<', '>');
         }
 
         private static User GetCurrentUser()
